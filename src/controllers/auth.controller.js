@@ -5,7 +5,6 @@ const jwt = require("jsonwebtoken")
  * - user register Controller 
  * - POST /api/auth/Register 
  */
-
 async function userRegisterController(req, res) {
     const { email, password, name } = req.body
 
@@ -39,6 +38,22 @@ async function userRegisterController(req, res) {
 
 }
 
+
+/**
+ *  - user login controller
+ *  - POST /api/auth/login
+ */
+async function userLoginController(req, res) {
+    const { email, password } = req.body
+    const isEmailExists = userModel.findOne({email})
+    if(!isEmailExists){
+        return res.status(201).json({
+            message : "Email or Password is Invalid"
+        })
+    }
+
+}
 module.exports = {
-    userRegisterController
+    userRegisterController,
+    userLoginController
 }

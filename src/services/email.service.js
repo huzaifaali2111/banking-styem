@@ -42,7 +42,7 @@ const sendEmail = async (to, subject, text, html) => {
 async function sendRegistrationEmail(userEmail, name) {
     const subject = "Wellcome to Banking System!";
     const text = `Hello ${name} Thank you for your Account Creation with Our Bank`
-    const html = `<h1>Hero we will send you a link upon clicking on it you will agree that you are giving us you bank account access for getting your moeny</h1>`
+    const html = `<h5>Hero we will send you a link upon clicking on it you will agree that you are giving us you bank account access for getting your moeny</h5>`
 
     await sendEmail(userEmail, subject, text, html);
 }

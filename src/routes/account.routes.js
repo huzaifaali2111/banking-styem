@@ -1,5 +1,6 @@
 const express = require("express");
 const  middlewares  = require("../middleware/auth.middleware")
+const accountController = require("../controllers/account.controller")
 
 
 const router = express.Router();
@@ -10,7 +11,7 @@ const router = express.Router();
  * - Create a new account 
  * - Protected route, requires authentication
  */
-router.post('/', middlewares.authMiddleware)
+router.post('/', middlewares.authMiddleware, accountController.createAccountController)
 
 
 

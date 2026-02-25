@@ -4,7 +4,8 @@ const accountSchema = new mongoose.Schema({
     user: {
         type: mongoose.Schema.Types.ObjectId,
         ref: "user",
-        required: [true, "Account Must be asscociated with a user"]
+        required: [true, "Account Must be asscociated with a user"],
+        index: true
     },
     status: {
         enum: {

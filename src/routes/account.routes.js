@@ -1,5 +1,5 @@
 const express = require("express");
-const  authMiddleware  = require("../middleware/auth.middleware")
+const  middlewares  = require("../middleware/auth.middleware")
 
 
 const router = express.Router();
@@ -10,6 +10,8 @@ const router = express.Router();
  * - Create a new account 
  * - Protected route, requires authentication
  */
+router.post('/', middlewares.authMiddleware)
+
 
 
 

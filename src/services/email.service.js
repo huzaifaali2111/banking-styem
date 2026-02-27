@@ -39,6 +39,7 @@ const sendEmail = async (to, subject, text, html) => {
     }
 };
 
+// Account Registration mail 
 async function sendRegistrationEmail(userEmail, name) {
     const subject = "Wellcome to Banking System!";
     const text = `Hello ${name} Thank you for your Account Creation with Our Bank`
@@ -46,6 +47,17 @@ async function sendRegistrationEmail(userEmail, name) {
 
     await sendEmail(userEmail, subject, text, html);
 }
+
+// Transaction Successfull mail 
+async function sendTransactionEmail(userEmail, name, amount, toAccount) {
+    const subject = 'Transaction Successful!';
+    const text = `Hello ${name},\n\nYour transaction of $${amount} to account ${toAccount} was successful.\n\nBest regards,\nThe Backend Ledger Team`;
+    const html = `<p>Hello ${name},</p><p>Your transaction of $${amount} to account ${toAccount} was successful.</p><p>Best regards,<br>The Backend Ledger Team</p>`;
+
+    await sendEmail(userEmail, subject, text, html);
+}
+
 module.exports = {
-    sendRegistrationEmail
+    sendRegistrationEmail,
+    sendTransactionEmail
 }

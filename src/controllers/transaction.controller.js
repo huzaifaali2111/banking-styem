@@ -105,6 +105,19 @@ async function createTransaction(req, res) {
     }, { session })
 
     transaction.status = "COMPLETED"
+    await transaction.save({ session })
+
+    await session.commitTransaction()
+    session.endSession()
+
+    
+    // send Successful transaction email 
+    await emailService.sendTransactionEmail(req.user.email, req.user.name, amount, toAccount)
+    return res.status(201).json({
+        message: "Transaction completed successfully",
+        transaction: transaction
+    })
+
 }
 
 

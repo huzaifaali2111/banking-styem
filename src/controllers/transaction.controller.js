@@ -110,7 +110,7 @@ async function createTransaction(req, res) {
     await session.commitTransaction()
     session.endSession()
 
-    
+
     // send Successful transaction email 
     await emailService.sendTransactionEmail(req.user.email, req.user.name, amount, toAccount)
     return res.status(201).json({
@@ -120,10 +120,14 @@ async function createTransaction(req, res) {
 
 }
 
+async function createIntialFundTransaction(req, res) {
+
+}
 
 
 
 
 module.exports = {
-    createTransaction
+    createTransaction,
+    createIntialFundTransaction
 }

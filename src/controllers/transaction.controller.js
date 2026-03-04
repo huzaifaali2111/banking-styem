@@ -29,7 +29,7 @@ async function createTransaction(req, res) {
             message: "Invalid Accounts"
         })
     }
-    
+
 
     // validate idempotency key 
     const isTransactionAlreadyExists = await transactionModel.findOne({
@@ -72,8 +72,8 @@ async function createTransaction(req, res) {
 
 
     // Derive Sender Balance from ledger
-    const balance = await fromUserAccount.getBalance()
-    if (balance < amount) {
+    const senderBalance = await fromUserAccount.getBalance()
+    if (senderBalance < amount) {
         return res.status(400).json({
             message: `insufficient balance ${balance} while you are requesting ${amount}`
         })
@@ -111,9 +111,13 @@ async function createTransaction(req, res) {
     await session.commitTransaction()
     session.endSession()
 
+    
     // Account Balance update 
-    console.log(fromUserAccount.balance, amount )
-    console.log(toUserAccount.balance,amount)
+    const newSenderBalance = senderBalance - amount;
+    await updateBalance(fromAccount, newSenderBalance)
+
+    const receiverBalance = await toUserAccount.getBalance();
+    await updateBalance(toAccount, receiverBalance)
 
 
     // send Successful transaction email 
@@ -192,6 +196,9 @@ async function createIntialFundTransaction(req, res) {
 
 
 
+async function updateBalance(accountNumber, amount) {
+    const newBalance = await accountModel.findOneAndUpdate({ _id: accountNumber }, { balance: amount })
+}
 
 module.exports = {
     createTransaction,

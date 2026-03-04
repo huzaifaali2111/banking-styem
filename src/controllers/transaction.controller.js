@@ -90,13 +90,6 @@ async function createTransaction(req, res) {
         idempotencyKey,
         status: "PENDING"
     })
-    // const transaction = await transactionModel.create([{
-    //     fromAccount,
-    //     toAccount,
-    //     amount,
-    //     idempotencyKey,
-    //     status: "PENDING"
-    // }], { session })
 
     const debitLedgerEntry = await ledgerModel.create([{
         account: fromAccount,

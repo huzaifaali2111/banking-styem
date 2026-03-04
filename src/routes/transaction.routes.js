@@ -6,15 +6,15 @@ const transactionRoutes = Router()
 
 
 /** 
- * - POST /api/transaction 
+ * - POST /api/transactions/transaction 
  * - Create a new transaction
  * */
-transactionRoutes.post("/", Middleware.authMiddleware, transactionController.createTransaction)
+transactionRoutes.post("/transaction", Middleware.authMiddleware, transactionController.createTransaction)
 
 /** 
- * - POST /api/transaction/fund 
+ * - POST /api/transaction/initial-fund
  * */
-transactionRoutes.post("/fund", Middleware.systemUserMiddleware,  transactionController.createIntialFundTransaction ) 
+transactionRoutes.post("/initial-fund", Middleware.systemUserMiddleware,  transactionController.createIntialFundTransaction ) 
 
 
 module.exports = transactionRoutes

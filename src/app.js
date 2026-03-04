@@ -17,6 +17,7 @@ app.use(cookieParser())
 const authRouter = require("./routes/auth.routes")
 const accountRouter = require("./routes/account.routes")
 const transactionRoutes = require("./routes/transaction.routes")
+const balanceRouter = require("./routes/balance.routes")
 
 
 
@@ -27,6 +28,7 @@ const transactionRoutes = require("./routes/transaction.routes")
 app.use("/api/auth", authRouter)
 app.use("/api/accounts", accountRouter)
 app.use("/api/transactions", transactionRoutes)
+app.use("/api/check",balanceRouter)
 
 
 

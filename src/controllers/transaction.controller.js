@@ -108,7 +108,7 @@ async function createTransaction(req, res) {
     transaction.status = "COMPLETED"
     await transaction.save({ session })
 
-    
+
 
 
     // Account Balance update 
@@ -116,9 +116,10 @@ async function createTransaction(req, res) {
     await updateBalance(fromAccount, newSenderBalance)
 
     const receiverBalance = await toUserAccount.getBalance();
+    
     await updateBalance(toAccount, receiverBalance)
 
-    
+
     await session.commitTransaction()
     session.endSession()
 
@@ -185,6 +186,12 @@ async function createIntialFundTransaction(req, res) {
 
     transaction.status = "COMPLETED"
     await transaction.save({ session })
+
+
+    //user balance updation
+    const receiverBalance = await toUserAccount.getBalance();
+    const newReceiverBalance = receiverBalance + amount
+    await updateBalance(toAccount, newReceiverBalance)
 
     await session.commitTransaction()
     session.endSession()

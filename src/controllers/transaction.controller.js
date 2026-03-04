@@ -20,7 +20,6 @@ async function createTransaction(req, res) {
 
     const fromUserAccount = await accountModel.findOne({
         _id: fromAccount,
-       systemUser: true
     })
     const toUserAccount = await accountModel.findOne({
         _id: toAccount,

@@ -1,19 +1,17 @@
 require('dotenv').config();
 const nodemailer = require('nodemailer');
 
-const transporter = nodemailer.createTransport({
-    service: 'gmail',
+const transport = nodemailer.createTransport({
+    host: process.env.SMTP_HOST,
+    port: Number(process.env.SMTP_PORT),
+    secure: false, // MUST be false for port 2525
     auth: {
-        type: 'OAuth2',
-        user: process.env.EMAIL_USER,
-        clientId: process.env.CLIENT_ID,
-        clientSecret: process.env.CLIENT_SECRET,
-        refreshToken: process.env.REFRESH_TOKEN,
-    },
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS,
+    }
 });
 
-// Verify the connection configuration
-transporter.verify((error, success) => {
+transport.verify((error) => {
     if (error) {
         console.error('Error connecting to email server:', error);
     } else {
@@ -21,34 +19,30 @@ transporter.verify((error, success) => {
     }
 });
 
-// Function to send email
 const sendEmail = async (to, subject, text, html) => {
     try {
-        const info = await transporter.sendMail({
-            from: `"Banking System" <${process.env.EMAIL_USER}>`, // sender address
-            to, // list of receivers
-            subject, // Subject line
-            text, // plain text body
-            html, // html body
+        const info = await transport.sendMail({
+            from: `"Banking System" <${process.env.EMAIL_USER}>`,
+            to,
+            subject,
+            text,
+            html,
         });
 
         console.log('Message sent: %s', info.messageId);
-        console.log('Preview URL: %s', nodemailer.getTestMessageUrl(info));
     } catch (error) {
         console.error('Error sending email:', error);
     }
 };
 
-// Account Registration mail 
 async function sendRegistrationEmail(userEmail, name) {
-    const subject = "Wellcome to Banking System!";
-    const text = `Hello ${name} Thank you for your Account Creation with Our Bank`
-    const html = `<h5>Hero we will send you a link upon clicking on it you will agree that you are giving us you bank account access for getting your moeny</h5>`
+    const subject = 'Welcome to Banking System!';
+    const text = `Hello ${name}, thank you for creating your account with our bank.`;
+    const html = `<p>Hello ${name},</p><p>Thank you for creating your account with our bank.</p>`;
 
     await sendEmail(userEmail, subject, text, html);
 }
 
-// Transaction Successfull mail 
 async function sendTransactionEmail(userEmail, name, amount, toAccount) {
     const subject = 'Transaction Successful!';
     const text = `Hello ${name},\n\nYour transaction of $${amount} to account ${toAccount} was successful.\n\nBest regards,\nThe Backend Ledger Team`;
@@ -59,5 +53,5 @@ async function sendTransactionEmail(userEmail, name, amount, toAccount) {
 
 module.exports = {
     sendRegistrationEmail,
-    sendTransactionEmail
-}
+    sendTransactionEmail,
+};

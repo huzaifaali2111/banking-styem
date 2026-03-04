@@ -12,7 +12,7 @@ async function createTransaction(req, res) {
 
     // validate Request 
     const { fromAccount, toAccount, amount, idempotencyKey } = req.body
-    if (!fromAccount || toAccount || amount || idempotencyKey) {
+    if (!fromAccount || !toAccount || !amount || !idempotencyKey) {
         return res.status(400).json({
             message: "fromAccount, toAccount, amount, idempotencyKey is required"
         })
@@ -20,15 +20,17 @@ async function createTransaction(req, res) {
 
     const fromUserAccount = await accountModel.findOne({
         _id: fromAccount,
+       systemUser: true
     })
     const toUserAccount = await accountModel.findOne({
         _id: toAccount,
     })
-    if (!fromUserAccount || toUserAccount) {
+    if (!fromUserAccount || !toUserAccount) {
         return res.status(400).json({
             message: "Invalid Accounts"
         })
     }
+    
 
     // validate idempotency key 
     const isTransactionAlreadyExists = await transactionModel.findOne({
@@ -82,27 +84,34 @@ async function createTransaction(req, res) {
     const session = await mongoose.startSession()
     session.startTransaction()
 
-    const transaction = await transactionModel.create({
+    const transaction = new transactionModel({
         fromAccount,
         toAccount,
         amount,
         idempotencyKey,
         status: "PENDING"
-    }, { session })
+    })
+    // const transaction = await transactionModel.create([{
+    //     fromAccount,
+    //     toAccount,
+    //     amount,
+    //     idempotencyKey,
+    //     status: "PENDING"
+    // }], { session })
 
-    const debitLedgerEntry = await ledgerModel.create({
+    const debitLedgerEntry = await ledgerModel.create([{
         account: fromAccount,
         amount: amount,
         transaction: transaction._id,
         type: "DEBIT"
-    }, { session })
+    }], { session })
 
-    const creditLedgerEntry = await ledgerModel.create({
+    const creditLedgerEntry = await ledgerModel.create([{
         account: toAccount,
         amount: amount,
         transaction: transaction._id,
         type: "CREDIT"
-    }, { session })
+    }], { session })
 
     transaction.status = "COMPLETED"
     await transaction.save({ session })
@@ -137,39 +146,39 @@ async function createIntialFundTransaction(req, res) {
     }
 
     const fromUserAccount = await accountModel.findOne({
-        systemUser: true,
+        // systemUser: true,
         user: req.user._id
     })
 
     if (!fromUserAccount) {
         return res.status(400).json({
-            message: "Sytem user must proceed the initial deposit"
+            message: "System user account not found"
         })
     }
 
     const session = await mongoose.startSession()
     session.startTransaction()
 
-    const transaction = await transactionModel.create({
+    const transaction = new transactionModel({
         fromAccount: fromUserAccount._id,
         toAccount,
         amount,
         idempotencyKey,
         status: "PENDING"
-    }, { session })
-    const debitLedgerEntry = await ledgerModel.create({
+    })
+    const debitLedgerEntry = await ledgerModel.create([{
         account: fromUserAccount._id,
         amount: amount,
         transaction: transaction._id,
         type: "DEBIT"
-    }, { session })
+    }], { session })
 
-    const creditLedgerEntry = await ledgerModel.create({
+    const creditLedgerEntry = await ledgerModel.create([{
         account: toAccount,
         amount: amount,
         transaction: transaction._id,
         type: "CREDIT"
-    }, { session })
+    }], { session })
 
     transaction.status = "COMPLETED"
     await transaction.save({ session })
@@ -177,7 +186,7 @@ async function createIntialFundTransaction(req, res) {
     await session.commitTransaction()
     session.endSession()
 
-     return res.status(201).json({
+    return res.status(201).json({
         message: "Fund Deposit successfull",
         transaction: transaction
     })

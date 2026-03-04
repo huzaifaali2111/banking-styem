@@ -111,6 +111,10 @@ async function createTransaction(req, res) {
     await session.commitTransaction()
     session.endSession()
 
+    // Account Balance update 
+    console.log(fromUserAccount.balance, amount )
+    console.log(toUserAccount.balance,amount)
+
 
     // send Successful transaction email 
     await emailService.sendTransactionEmail(req.user.email, req.user.name, amount, toAccount)

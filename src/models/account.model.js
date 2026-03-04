@@ -20,6 +20,10 @@ const accountSchema = new mongoose.Schema({
         type: String,
         required: [true, "Currency is required for creating an account"],
         default: "PKR"
+    },
+    balance:{
+        type: Number,
+        default: 0,
     }
 
 }, {

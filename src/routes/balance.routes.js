@@ -5,12 +5,17 @@ const accountModel = require("../models/account.model");
 const balanceRouter = express.Router();
 
 balanceRouter.get("/balance", Middleware.authMiddleware, async (req, res) => {
-    const accountBalance = await accountModel.findOne({
+    const accountInfo = await accountModel.findOne({
         user: req.user._id
     })
-    
+     
+    if(req.user.systemUser == true){
+      return res.status(403).json({
+        message: "unauthorized for this work"
+      })
+    }
     res.status(200).json({
-        userBalance: accountBalance.balance
+        userBalance: accountInfo.balance
     })
 })
 

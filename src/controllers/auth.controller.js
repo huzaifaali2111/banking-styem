@@ -89,12 +89,13 @@ async function userPasswordReset(req, res) {
     const isUserExist = await userModel.findOne({
         email: userEmail
     })
-    console.log(isUserExist)
+
     if (!isUserExist) {
         res.status(550).json({
             message: "Record not found"
         })
     }
+    
 
 }
 module.exports = {

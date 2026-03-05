@@ -2,10 +2,7 @@ const userModel = require("../models/user.model")
 const jwt = require("jsonwebtoken")
 const emailservice = require("../services/email.service")
 
-/**
- * - user register Controller 
- * - POST /api/auth/Register 
- */
+// user registration controller
 async function userRegisterController(req, res) {
     const { email, password, name } = req.body
 
@@ -41,10 +38,7 @@ async function userRegisterController(req, res) {
 
 }
 
-/**
- *  - user login controller
- *  - POST /api/auth/login
- */
+// user login controller
 async function userLoginController(req, res) {
     const { email, password } = req.body
     const user = await userModel.findOne({ email }).select("+password")
@@ -83,8 +77,29 @@ async function userLogout(req, res) {
     })
 
 }
+
+// user password rest
+async function userPasswordReset(req, res) {
+    const userEmail = req.body.email
+    if (!userEmail) {
+        res.status(400).json({
+            message: "Kindly provide Your Email to Reset password"
+        })
+    }
+    const isUserExist = await userModel.findOne({
+        email: userEmail
+    })
+    console.log(isUserExist)
+    if (!isUserExist) {
+        res.status(550).json({
+            message: "Record not found"
+        })
+    }
+
+}
 module.exports = {
     userRegisterController,
     userLoginController,
-    userLogout
+    userLogout,
+    userPasswordReset
 }

@@ -1,6 +1,6 @@
 const userModel = require("../models/user.model")
 const jwt = require("jsonwebtoken")
-const emailservice =require("../services/email.service")
+const emailservice = require("../services/email.service")
 
 /**
  * - user register Controller 
@@ -41,7 +41,6 @@ async function userRegisterController(req, res) {
 
 }
 
-
 /**
  *  - user login controller
  *  - POST /api/auth/login
@@ -74,7 +73,18 @@ async function userLoginController(req, res) {
 
 
 }
+
+// user logout controller 
+async function userLogout(req, res) {
+    console.log(req.cookies.token)
+    res.clearCookie('token')
+    res.status(202).json({
+        message: "Successfully logout of Account"
+    })
+
+}
 module.exports = {
     userRegisterController,
-    userLoginController
+    userLoginController,
+    userLogout
 }

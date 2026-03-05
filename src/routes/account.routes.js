@@ -12,7 +12,8 @@ const router = express.Router();
  * - Protected route, requires authentication
  */
 
-router.post('/', middlewares.authMiddleware, accountController.createAccountController)
+router.post('/new-account', middlewares.authMiddleware, accountController.createAccountController)
+
 
 
 

@@ -15,6 +15,9 @@ router.post("/login", authController.userLoginController)
 router.post('/logout', middlewares.authMiddleware, authController.userLogout)
 
 
+// password forget
+router.post('/forget-password', authController.userPasswordForget)
+
 // password reset
 router.post('/reset-password', authController.userPasswordReset)
 

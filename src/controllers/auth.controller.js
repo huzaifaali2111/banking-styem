@@ -1,6 +1,7 @@
 const userModel = require("../models/user.model")
 const jwt = require("jsonwebtoken")
 const emailservice = require("../services/email.service")
+const crypto = require("crypto");
 
 // user registration controller
 async function userRegisterController(req, res) {
@@ -78,11 +79,11 @@ async function userLogout(req, res) {
 
 }
 
-// user password rest
-async function userPasswordReset(req, res) {
+// user password forget request
+async function userPasswordForget(req, res) {
     const userEmail = req.body.email
     if (!userEmail) {
-        res.status(400).json({
+        return res.status(400).json({
             message: "Kindly provide Your Email to Reset password"
         })
     }
@@ -90,19 +91,62 @@ async function userPasswordReset(req, res) {
         email: userEmail
     })
     if (!isUserExist) {
-        res.status(550).json({
+        return res.status(550).json({
             message: "Record not found"
         })
     }
     const userName = isUserExist.name
-    const reqToken = "rewyre%6sad"
-    await emailservice.restPasswordEmail(userEmail, userName,reqToken)
-    
+    const reqToken = crypto.randomUUID();
+    const expiry = new Date(Date.now() + 30 * 60 * 1000);
+    await userModel.findOneAndUpdate({ email: userEmail }, { reset_token: reqToken, reset_token_expiry: expiry })
+    await emailservice.forgetPasswordEmail(userEmail, userName, reqToken)
+
+    res.status(202).json({
+        message: "You Request for password reset has been accepted check your email folder for the Rest link"
+    })
+
+
+}
+
+// user password reset request 
+async function userPasswordReset(req, res) {
+    const reset_Token = req.query.token
+    const newPassword = req.body.password
+    if(!newPassword){
+        return res.status(400).json({
+            message: "kindly Provide the Password"
+        })
+    }
+    if (!reset_Token) {
+        return res.status(400).json({
+            message: "You Link should Contain a token for Password reset"
+        })
+    }
+    const user = await userModel.findOne({
+        reset_token: reset_Token,
+        reset_token_expiry: { $gt: new Date() }
+    }).select("+password")
+    if (!user) {
+        return res.status(400).json({
+            message: "Rest Link is Expired or Invalid"
+        })
+    }
+        user.password = newPassword,
+        user.reset_token = null,
+        user.reset_token_expiry = null
+
+    await user.save();
+
+    res.status(200).json({
+        message: "Password Updated Successfully",
+        status: "Updated"
+    })
 
 }
 module.exports = {
     userRegisterController,
     userLoginController,
     userLogout,
+    userPasswordForget,
     userPasswordReset
 }

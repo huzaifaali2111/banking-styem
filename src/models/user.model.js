@@ -24,8 +24,12 @@ const userSchema = new mongoose.Schema({
         default: false,
         immutable: true,
     },
-    token: {
+    reset_token: {
         type: String,
+        default: null,
+    },
+    reset_token_expiry: {
+        type: Date,
         default: null,
     }
 }, {

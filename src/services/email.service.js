@@ -50,8 +50,15 @@ async function sendTransactionEmail(userEmail, name, amount, toAccount) {
 
     await sendEmail(userEmail, subject, text, html);
 }
+async function restPasswordEmail(userEmail, name, reqToken ) {
+    const subject = 'Password Reset!';
+    const text = `Hello ${name},\n\n You request a Password rest link. Click the link or Button below to rest your password`;
+    const html = `<p>Hello ${name},</p><p>Your link for password Rest is</p><a href="http://localhost:3000/api/auth/reset-password?token=${reqToken}">Reset Now</a>`;
+     await sendEmail(userEmail, subject, text, html);
+}
 
 module.exports = {
     sendRegistrationEmail,
     sendTransactionEmail,
+    restPasswordEmail
 };

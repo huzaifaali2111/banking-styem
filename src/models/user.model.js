@@ -16,13 +16,17 @@ const userSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, "Password is Required"],
-        minlength: [6, "Password Should contain more the 6 character"],
+        minlength: [6, "Password Should contain more then 6 character"],
         select: false
     },
     systemUser: {
         type: Boolean,
         default: false,
         immutable: true,
+    },
+    token: {
+        type: String,
+        default: null,
     }
 }, {
     timestamps: true

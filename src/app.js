@@ -1,6 +1,7 @@
 const express = require("express");
 const cookieParser = require("cookie-parser")
 const path = require('path');
+const expressLayout = require('express-ejs-layouts');
 
 // Improting routes
 const authRouter = require("./routes/auth.routes")
@@ -14,7 +15,13 @@ const webRouter = require("./routes/web.routes")
 
 const app = express();
 
+// public folder
+app.use(express.static('public'));
+
+
 // View Engine
+app.use(expressLayout);
+app.set('layout', 'layouts/main');
 app.set('view engine', 'ejs');
 app.set('views', path.join(__dirname, 'views'));
 
@@ -32,8 +39,8 @@ app.use(cookieParser())
 app.use("/api/auth", authRouter)
 app.use("/api/accounts", accountRouter)
 app.use("/api/transactions", transactionRoutes)
-app.use("/api/check",balanceRouter)
-app.use("/",webRouter)
+app.use("/api/check", balanceRouter)
+app.use("/", webRouter)
 
 
 

@@ -23,7 +23,7 @@ async function userLogin(email, password) {
         body : JSON.stringify(userData)
     })
     if(response.ok){
-        console.log(response)
+        window.location.replace("/profile")
     }
     else{
         console.log(response)

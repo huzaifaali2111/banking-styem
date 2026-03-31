@@ -6,4 +6,9 @@ router.get("/", (req, res) => {
     res.render("auth");
 })
 
+router.get("/profile", (req, res) => {
+    const user = req.cookies.token
+    res.render("profile", {user});
+})
+
 module.exports = router

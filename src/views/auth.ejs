@@ -34,17 +34,19 @@
                         <!-- signup form  -->
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                             aria-labelledby="pills-home-tab" tabindex="0">
-                            <form class="register" id="reg">
+                            <form class="register" id="signupForm">
                                 <div class="mb-3">
-                                    <label for="exampleInputEmail1" class="form-label">Email address</label>
+                                    <label for="name">Name</label>
+                                    <input type="text" class="form-control" name="name">
+                                    <label for="exampleInputEmail1" class="form-label" >Email address</label>
                                     <input type="email" class="form-control" id="InputEmail1"
-                                        aria-describedby="emailHelp">
+                                        aria-describedby="emailHelp" name="email">
                                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="exampleInputPassword1">
+                                    <input type="password" class="form-control" id="exampleInputPassword1" name ="password">
                                 </div>
                                 <button type="submit" class="btn btn-primary">Register</button>
                             </form>
@@ -68,7 +70,7 @@
                                 <button type="submit" class="btn btn-primary" id="login_btn">Login</button>
                             </form>
                         </div>
-
+                         <p id="message" style="display: none;" class="bg-primary-subtle"></p>
                     </div>
                 </div>
 

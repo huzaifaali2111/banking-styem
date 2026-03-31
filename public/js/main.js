@@ -1,28 +1,35 @@
-let loginEmail = document.getElementById("login_email");
-let loginPassword = document.getElementById("login_password");
-let loginBtn = document.getElementById("login_btn");
+
 let loginForm = document.getElementById("loginForm");
 
 loginForm.addEventListener('submit', (e) =>{
     e.preventDefault();
-    const formData = new formData(e.target)
-    console.log(formData)
+    userLogin(e.target.elements.email.value, e.target.elements.password.value)
 })
- 
+
+// login function 
 async function userLogin(email, password) {
     const userData = {
         email: email,
         password: password
     }
+    
     let url = "/api/auth/login"
     try{
     let response = await fetch(url,{
-        method : "POST",
+        method : "POST", 
+        headers: {
+        'Content-Type': 'application/json' 
+      },
         body : JSON.stringify(userData)
     })
     if(response.ok){
-        console.log("okk")
+        console.log(response)
+    }
+    else{
+        console.log(response)
     }
     }
-    catch(e){}
+    catch(e){
+        console.log(e)
+    }
 }

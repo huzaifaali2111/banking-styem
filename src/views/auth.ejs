@@ -28,7 +28,10 @@
                         </li>
 
                     </ul>
+
                     <div class="tab-content" id="pills-tabContent">
+
+                        <!-- signup form  -->
                         <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
                             aria-labelledby="pills-home-tab" tabindex="0">
                             <form class="register" id="reg">
@@ -46,27 +49,28 @@
                                 <button type="submit" class="btn btn-primary">Register</button>
                             </form>
                         </div>
+
+                        <!-- login form  -->
                         <div class="tab-pane fade" id="pills-profile" role="tabpanel"
                             aria-labelledby="pills-profile-tab" tabindex="0">
                             <form class="login" id="loginForm">
                                 <div class="mb-3">
                                     <label for="exampleInputEmail1" class="form-label">Email address</label>
-                                    <input type="email" class="form-control" id="login_email"
+                                    <input type="email" class="form-control" name="email" id="login_email"
                                         aria-describedby="emailHelp">
                                     <div id="emailHelp" class="form-text">We'll never share your email with anyone else.
                                     </div>
                                 </div>
                                 <div class="mb-3">
                                     <label for="exampleInputPassword1" class="form-label">Password</label>
-                                    <input type="password" class="form-control" id="login_password">
+                                    <input type="password" class="form-control" id="login_password" name="password">
                                 </div>
-                                <button type="submit" class="btn btn-primary" id="login_btn" >Login</button>
+                                <button type="submit" class="btn btn-primary" id="login_btn">Login</button>
                             </form>
                         </div>
+
                     </div>
-
                 </div>
-
             </div>
         </div>
     </div>

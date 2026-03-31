@@ -1,8 +1,9 @@
 const express = require("express");
 const router = express.Router();
+const middleware = require("../middleware/frontendmiddleware/guest.middleware")
 
 
-router.get("/", (req, res) => {
+router.get("/auth", (req, res) => {
     res.render("auth");
 })
 

@@ -40,7 +40,7 @@ app.use("/api/auth", authRouter)
 app.use("/api/accounts", accountRouter)
 app.use("/api/transactions", transactionRoutes)
 app.use("/api/check", balanceRouter)
-app.use("/", webRouter)
+app.use("", webRouter)
 
 
 

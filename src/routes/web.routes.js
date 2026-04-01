@@ -1,17 +1,17 @@
 const express = require("express");
 const router = express.Router();
-const middleware = require("../middleware/frontendmiddleware/guest.middleware")
+const middleware = require("../middleware/frontendmiddleware/validation.middleware")
 
-router.get("/auth",  middleware.guest, (req, res) => {
+router.get("/auth", middleware.isloggedIn, (req, res) => {
     res.render("auth");
 })
 
-router.get("/profile", (req, res) => {
+router.get("/profile", middleware.requireAuth, middleware.hasAccount, (req, res) => {
     const user = req.cookies.token
-    res.render("profile", {user});
+    res.render("profile", { user });
 })
 
-router.get("/guest", (req, res)=>{
+router.get("/guest", middleware.requireAuth, middleware.hasNoAccount, (req, res) => {
     res.render("guest");
 })
 

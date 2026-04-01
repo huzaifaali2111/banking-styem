@@ -24,7 +24,39 @@ const accountSchema = new mongoose.Schema({
     balance:{
         type: Number,
         default: 0,
+    }, 
+    name:{
+        type: String,
+        required: true
+    },
+    cnic:{
+        type: Number,
+        required: true
+    },
+    fatherName:{
+        type: String,
+        required: true
+    }, 
+    birthdate:{
+        type: Date,
+        required: true
+    },
+    address:{
+        type: String,
+        required: true
+    },
+    phoneNumber:{
+        type: Number,
+        required: true
+    },
+    accountNumber:{
+        type: String,
+        required: true,
+        immutable: true,
+        unique: true,
+        index: true,
     }
+
 
 }, {
     timestamps: true

@@ -11,8 +11,8 @@ router.get("/profile", middleware.requireAuth, middleware.hasAccount, (req, res)
     res.render("profile", { user });
 })
 
-router.get("/guest", middleware.requireAuth, middleware.hasNoAccount, (req, res) => {
-    res.render("guest");
+router.get("/open-account", middleware.requireAuth, middleware.hasNoAccount, (req, res) => {
+    res.render("open-account");
 })
 
 module.exports = router

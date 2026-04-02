@@ -2,9 +2,8 @@ const accountModel = require("../models/account.model")
 const { validationResult } = require("express-validator");
 
 async function createAccountController(req, res) {
-    // error handling 
-
     try {
+        // error handling
         const errors = validationResult(req);
         if (!errors.isEmpty()) {
             return res.status(422).json(errors);
@@ -42,7 +41,7 @@ async function createAccountController(req, res) {
             account: account
         })
     } catch (error) {
-        return res.status(500).json({msg: "Something went wrong, try again"});
+        return res.status(500).json({ msg: "Something went wrong, try again" });
     }
 }
 module.exports = {

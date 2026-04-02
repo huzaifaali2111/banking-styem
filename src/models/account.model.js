@@ -21,37 +21,38 @@ const accountSchema = new mongoose.Schema({
         required: [true, "Currency is required for creating an account"],
         default: "PKR"
     },
-    balance:{
+    balance: {
         type: Number,
         default: 0,
-    }, 
-    name:{
+    },
+    name: {
         type: String,
         required: true
     },
-    cnic:{
+    cnic: {
         type: Number,
-        required: true
+        required: true,
+        unique: true
     },
-    fatherName:{
+    fatherName: {
         type: String,
         required: true
-    }, 
-    birthdate:{
+    },
+    birthdate: {
         type: Date,
         required: true
     },
-    address:{
+    address: {
         type: String,
         required: true
     },
-    phoneNumber:{
+    phoneNumber: {
         type: Number,
         required: true
     },
-    accountNumber:{
+    accountNumber: {
         type: String,
-        required: true,
+        required: [true, "account Number is must"],
         immutable: true,
         unique: true,
         index: true,

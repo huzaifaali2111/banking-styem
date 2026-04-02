@@ -5,7 +5,7 @@ const jwt = require("jsonwebtoken")
 async function isloggedIn(req, res, next) {
     try {
         const token = req.cookies.token || req.headers.authorization?.split(" ")[1];
-        if(!token){
+        if (!token) {
             return next();
         }
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -26,8 +26,10 @@ async function requireAuth(req, res, next) {
         if (!token) {
             return res.redirect("/auth");
         }
-        console.log("he")
+
         const decoded = jwt.verify(token, process.env.JWT_SECRET);
+        const user = await userModel.findById(decoded.userId);
+        req.user = user
         return next();
 
     } catch (e) {
@@ -37,9 +39,8 @@ async function requireAuth(req, res, next) {
 
 async function hasAccount(req, res, next) {
     try {
-        const token = req.cookies.token;
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const account = await accountModel.findById(decoded.userId);
+        const userId = req.user._id;
+        const account = await accountModel.userHasAccount(userId);
         if (!account) {
             return res.redirect("/open-account");
         }
@@ -53,9 +54,8 @@ async function hasAccount(req, res, next) {
 
 async function hasNoAccount(req, res, next) {
     try {
-        const token = req.cookies.token;
-        const decoded = jwt.verify(token, process.env.JWT_SECRET);
-        const account = await accountModel.findById(decoded.userId);
+        const userId = req.user._id;
+        const account = await accountModel.userHasAccount(userId);
         if (account) {
             return res.redirect("/profile");
         }

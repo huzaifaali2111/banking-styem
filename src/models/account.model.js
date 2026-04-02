@@ -105,6 +105,11 @@ accountSchema.methods.getBalance = async function () {
     return balanceData[0].balance
 }
 
+accountSchema.statics.userHasAccount = async function (userId) {
+    const isAccount = await  this.findOne({user: userId});
+    return !!isAccount;
+}
+
 
 
 const accountModel = mongoose.model("account", accountSchema)

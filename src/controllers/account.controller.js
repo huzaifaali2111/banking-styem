@@ -3,8 +3,8 @@ const accountModel = require("../models/account.model")
 async function createAccountController(req, res) {
     const user = req.user;
     const { name, cnic, fatherName, birthdate, address, phoneNumber } = req.body
-    let newcn = cnic.split()
-    const accountNumber = "SIB" + user._id.toString().padStart(10, "0");
+    let userCnic = cnic.toString().split("").slice(8, 13);
+    const accountNumber = "SIB" + userCnic.join("").padStart(10, "0");
     const isAccountExist = await accountModel.findOne({
         user: user._id
     })

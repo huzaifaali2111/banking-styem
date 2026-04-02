@@ -1,18 +1,15 @@
 const express = require("express");
 const  middlewares  = require("../middleware/auth.middleware")
 const accountController = require("../controllers/account.controller")
+const dataValidator = require("../validators/account.validator");
 
 
 const router = express.Router();
 
 
-/**
- * - POST /api/accounts
- * - Create a new account 
- * - Protected route, requires authentication
- */
+// creating new account
 
-router.post('/new-account', middlewares.authMiddleware, accountController.createAccountController)
+router.post('/new-account', middlewares.authMiddleware, dataValidator.createAccountValidator, accountController.createAccountController)
 
 
 

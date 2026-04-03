@@ -3,6 +3,7 @@ let loginForm = document.getElementById("loginForm");
 let signupForm = document.getElementById("signupForm");
 let accoutOpeningForm = document.getElementById("accoutOpeningForm");
 let accountAlert = document.getElementById("account-alert");
+let accountBalance = document.getElementById("accountBalance")
 
 if (loginForm && signupForm) {
 
@@ -24,6 +25,22 @@ if (accoutOpeningForm) {
     accoutOpeningForm.addEventListener("submit", (e) => {
         e.preventDefault();
         userAccount(e.target.elements.name.value, e.target.elements.cnic.value, e.target.elements.fatherName.value, e.target.elements.birthdate.value, e.target.elements.address.value, e.target.elements.phoneNumber.value)
+    })
+}
+
+if (accountBalance) {
+    window.addEventListener("DOMContentLoaded", async () => {
+        const response = await fetch("/api/check/balance", {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            },
+        })
+        const data = await response.json()
+         if (response.ok) {
+                accountBalance.innerText = `Rs. ${data.userBalance}`
+            }
+
     })
 }
 

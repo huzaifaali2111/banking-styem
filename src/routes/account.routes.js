@@ -12,6 +12,10 @@ const router = express.Router();
 router.post('/new-account', middlewares.authMiddleware, dataValidator.createAccountValidator, accountController.createAccountController)
 
 
+// check user account info
+router.get ("/account-info", middlewares.authMiddleware, accountController.getAccountInfo)
+
+
 
 
 

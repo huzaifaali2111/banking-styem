@@ -1,6 +1,7 @@
 const accountModel = require("../models/account.model")
 const { validationResult } = require("express-validator");
 
+
 async function createAccountController(req, res) {
     try {
         // error handling
@@ -44,6 +45,13 @@ async function createAccountController(req, res) {
         return res.status(500).json({ msg: "Something went wrong, try again" });
     }
 }
+
+async function getAccountInfo(req, res) {
+    const userId = req.user._id
+    const userInfo = await account
+
+}
 module.exports = {
-    createAccountController
+    createAccountController,
+    getAccountInfo
 }

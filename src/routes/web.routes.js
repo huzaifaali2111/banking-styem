@@ -7,8 +7,7 @@ router.get("/auth", middleware.isloggedIn, (req, res) => {
 })
 
 router.get("/profile", middleware.requireAuth, middleware.hasAccount, (req, res) => {
-    const user = req.cookies.token
-    res.render("profile", { user });
+    res.render("profile");
 })
 
 router.get("/open-account", middleware.requireAuth, middleware.hasNoAccount, (req, res) => {

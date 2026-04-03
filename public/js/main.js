@@ -114,6 +114,7 @@ async function userAccount(name, cnic, fatherName, birthdate, address, phoneNumb
         address: address,
         phoneNumber: phoneNumber
     }
+    console.log(userData)
     try {
         let url = "/api/accounts/new-account"
         const response = await fetch(url, {
@@ -128,13 +129,14 @@ async function userAccount(name, cnic, fatherName, birthdate, address, phoneNumb
             accountAlert.style.display = "block"
         }
         const data = await response.json()
-        console.log(data)
+        if (data.errors) {
+            const messages = data.errors.map(err => `<li>${err.msg}</li>`).join("");
+            accountAlert.innerHTML = `<li>${ messages}</li>`;
+            accountAlert.style.display = "block"
+        }
 
-        accountAlert.innerHTML = `<li>${data}</li>`;
-        accountAlert.style.display = "block"
-
-    } catch (error) {
-        accountAlert.innerHTML = `<li>${error}</li>`;
-        accountAlert.style.display = "block"
+        } catch (error) {
+            accountAlert.innerHTML = `<li>${error}</li>`;
+            accountAlert.style.display = "block"
+        }
     }
-}

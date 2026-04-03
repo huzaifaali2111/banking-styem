@@ -125,13 +125,17 @@ async function userAccount(name, cnic, fatherName, birthdate, address, phoneNumb
         })
         const data = await response.json()
         if (response.ok) {
-            accountAlert.innerHTML = `<li>${data.message}</li>`;
+            accountAlert.innerHTML = `<div class="alert alert-success" >
+                                      <li>${data.message}</li></div>`;
             accountAlert.style.display = "block"
-            console.log(response.ok)
+            setTimeout(() => {
+                location.reload();
+            }, 2000)
         }
         if (data.errors) {
             const messages = data.errors.map(err => `<li>${err.msg}</li>`).join("");
-            accountAlert.innerHTML = `<li>${messages}</li>`;
+            accountAlert.innerHTML = `<div class="alert alert-danger" >
+                                        ${messages}</div>`;
             accountAlert.style.display = "block"
         }
 

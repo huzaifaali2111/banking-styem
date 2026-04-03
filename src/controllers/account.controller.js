@@ -48,7 +48,12 @@ async function createAccountController(req, res) {
 
 async function getAccountInfo(req, res) {
     const userId = req.user._id
-    const userInfo = await account
+    const userInfo = await accountModel.findOne({
+        user: userId
+    })
+    return res.status(200).json({
+        userInfo
+    })
 
 }
 module.exports = {

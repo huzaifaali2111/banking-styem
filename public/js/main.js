@@ -114,29 +114,31 @@ async function userAccount(name, cnic, fatherName, birthdate, address, phoneNumb
         address: address,
         phoneNumber: phoneNumber
     }
-    console.log(userData)
     try {
         let url = "/api/accounts/new-account"
         const response = await fetch(url, {
             method: "POST",
             headers: {
-                "Content-Type": "appliaction/json"
+                "Content-Type": "application/json"
             },
             body: JSON.stringify(userData)
         })
-        if (response.ok) {
-            accountAlert.innerHTML = `<li>${response}</li>`;
-            accountAlert.style.display = "block"
-        }
         const data = await response.json()
+        if (response.ok) {
+            accountAlert.innerHTML = `<li>${data.message}</li>`;
+            accountAlert.style.display = "block"
+            console.log(response.ok)
+        }
         if (data.errors) {
             const messages = data.errors.map(err => `<li>${err.msg}</li>`).join("");
-            accountAlert.innerHTML = `<li>${ messages}</li>`;
+            accountAlert.innerHTML = `<li>${messages}</li>`;
             accountAlert.style.display = "block"
         }
 
-        } catch (error) {
-            accountAlert.innerHTML = `<li>${error}</li>`;
-            accountAlert.style.display = "block"
-        }
+
+    } catch (error) {
+        accountAlert.innerHTML = `<div class="alert alert-danger" >
+                                    <li>${error}</li></div>`;
+        accountAlert.style.display = "block"
     }
+}

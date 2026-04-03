@@ -117,6 +117,7 @@ async function createTransaction(req, res) {
 
     const receiverBalance = await toUserAccount.getBalance();
     
+    
     await updateBalance(toAccount, receiverBalance)
 
 
@@ -204,6 +205,11 @@ async function createIntialFundTransaction(req, res) {
 
 }
 
+
+async function transactionHistory(req, res) {
+     
+    
+}
 
 
 async function updateBalance(accountNumber, amount) {

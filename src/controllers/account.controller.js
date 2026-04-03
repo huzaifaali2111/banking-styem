@@ -57,6 +57,6 @@ async function getAccountInfo(req, res) {
 
 }
 module.exports = {
-    createAccountController,
+    createAccountController,   
     getAccountInfo
 }

@@ -10,7 +10,7 @@ const transactionRoutes = Router()
 transactionRoutes.post("/transaction", Middleware.authMiddleware,accountController.getAccountInfo, transactionController.createTransaction)
 
 // transaction history
-transactionRoutes.get("/transaction-history", Middleware.authMiddleware, accountController.getAccountInfo )
+transactionRoutes.get("/transaction-history", Middleware.authMiddleware, accountController.getAccountInfo, transactionController.transactionHistory )
 
 // system user deposit the fund
 transactionRoutes.post("/initial-fund", Middleware.systemUserMiddleware,  transactionController.createIntialFundTransaction ) 

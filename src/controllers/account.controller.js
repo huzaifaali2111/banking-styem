@@ -51,6 +51,7 @@ async function getAccountInfo(req, res) {
     const userInfo = await accountModel.findOne({
         user: userId
     })
+    req.account = userInfo;
     return res.status(200).json({
         userInfo
     })

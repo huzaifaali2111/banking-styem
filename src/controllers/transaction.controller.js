@@ -208,7 +208,7 @@ async function createIntialFundTransaction(req, res) {
 
 
 async function transactionHistory(req, res) {
-     
+     console.log(req.body.userInfo)
     
 }
 
@@ -219,5 +219,6 @@ async function updateBalance(accountNumber, amount) {
 
 module.exports = {
     createTransaction,
-    createIntialFundTransaction
+    createIntialFundTransaction,
+    transactionHistory
 }

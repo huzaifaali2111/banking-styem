@@ -117,8 +117,8 @@ async function createTransaction(req, res) {
     await updateBalance(fromAccount, newSenderBalance)
 
     const receiverBalance = await toUserAccount.getBalance();
-    
-    
+
+
     await updateBalance(toAccount, receiverBalance)
 
 
@@ -208,27 +208,27 @@ async function createIntialFundTransaction(req, res) {
 
 
 async function transactionHistory(req, res) {
-    //  console.log(req.user._id)
-     const userAccount = await  accountModel.findOne({
+    const userAccount = await accountModel.findOne({
         user: req.user._id
-     })
-     if(userAccount){
-        //  console.log(userAccount._id)
-     }
-     else{
-        console.log("koi masla ha")
-     }
-     const userTransactions = await transactionModel.find({
-        fromAccount: userAccount._id
-     })
-     
-     if(userTransactions.length > 0){
-        console.log(userTransactions)
-     }
-     else{
-        console.log("kuj v nhi")
-     }
-    
+    })
+    const userTransactions = await transactionModel.find({
+        $or: [
+            { fromAccount: userAccount._id },
+            { toAccount: userAccount._id }
+        ]
+    })
+
+    if (userTransactions.length > 0) {
+        return res.status(200).json({
+            userTransactions
+        })
+    }
+    else {
+        return res.status(200).json({
+            message: "No transaction yet click to proceed"
+        })
+    }
+
 }
 
 

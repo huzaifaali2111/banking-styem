@@ -208,7 +208,26 @@ async function createIntialFundTransaction(req, res) {
 
 
 async function transactionHistory(req, res) {
-     console.log(req.body.userInfo)
+    //  console.log(req.user._id)
+     const userAccount = await  accountModel.findOne({
+        user: req.user._id
+     })
+     if(userAccount){
+        //  console.log(userAccount._id)
+     }
+     else{
+        console.log("koi masla ha")
+     }
+     const userTransactions = await transactionModel.find({
+        fromAccount: userAccount._id
+     })
+     
+     if(userTransactions.length > 0){
+        console.log(userTransactions)
+     }
+     else{
+        console.log("kuj v nhi")
+     }
     
 }
 

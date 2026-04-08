@@ -1,41 +1,38 @@
-window.addEventListener("DOMContentLoaded", async ()=>{
+window.addEventListener("DOMContentLoaded", async () => {
 
-let message = document.getElementById("message");
-let loginForm = document.getElementById("loginForm");
-let signupForm = document.getElementById("signupForm");
-let accoutOpeningForm = document.getElementById("accoutOpeningForm");
-let accountAlert = document.getElementById("account-alert");
-let accountBalance = document.getElementById("accountBalance");
-let transactionHistory = document.getElementById("transaction-history");
+    let message = document.getElementById("message");
+    let loginForm = document.getElementById("loginForm");
+    let signupForm = document.getElementById("signupForm");
+    let accoutOpeningForm = document.getElementById("accoutOpeningForm");
+    let accountAlert = document.getElementById("account-alert");
+    let accountBalance = document.getElementById("accountBalance");
+    let transactionHistory = document.getElementById("transaction-history");
 
-console.log(accountBalance)
 
-if (loginForm && signupForm) {
+    if (loginForm && signupForm) {
 
-    // login event listener
-    loginForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        userLogin(e.target.elements.email.value, e.target.elements.password.value)
-    })
-    // signup event lister
-    signupForm.addEventListener('submit', (e) => {
-        e.preventDefault();
-        userRegistration(e.target.elements.name.value, e.target.elements.email.value, e.target.elements.password.value)
-    })
+        // login event listener
+        loginForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            userLogin(e.target.elements.email.value, e.target.elements.password.value)
+        })
+        // signup event lister
+        signupForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            userRegistration(e.target.elements.name.value, e.target.elements.email.value, e.target.elements.password.value)
+        })
 
-}
+    }
 
-if (accoutOpeningForm) {
-    // account opening form event listener
-    accoutOpeningForm.addEventListener("submit", (e) => {
-        e.preventDefault();
-        userAccount(e.target.elements.name.value, e.target.elements.cnic.value, e.target.elements.fatherName.value, e.target.elements.birthdate.value, e.target.elements.address.value, e.target.elements.phoneNumber.value)
-    })
-}
+    if (accoutOpeningForm) {
+        // account opening form event listener
+        accoutOpeningForm.addEventListener("submit", (e) => {
+            e.preventDefault();
+            userAccount(e.target.elements.name.value, e.target.elements.cnic.value, e.target.elements.fatherName.value, e.target.elements.birthdate.value, e.target.elements.address.value, e.target.elements.phoneNumber.value)
+        })
+    }
 
-if (accountBalance) {
-    console.log("inside if")
-     async () => {
+    if (accountBalance) {
         const response = await fetch("/api/check/balance", {
             method: "GET",
             headers: {
@@ -43,16 +40,16 @@ if (accountBalance) {
             },
         })
         const data = await response.json()
-         if (response.ok) {
-                accountBalance.innerText = `Rs. ${data.userBalance}`
-            }
-    }
-}
-if(transactionHistory){
-    // userTransactions();
-}
+        if (response.ok) {
+            accountBalance.innerText = `Rs. ${data.userBalance}`
+        }
 
-})
+    }
+    if (transactionHistory) {
+        userTransactions();
+    }
+
+
 // login function 
 async function userLogin(email, password) {
     const userData = {
@@ -176,19 +173,29 @@ async function userAccount(name, cnic, fatherName, birthdate, address, phoneNumb
 // transaction history function 
 async function userTransactions() {
     try {
-    const url = "/api/transactions/transaction-history";
-    const response = await fetch(url,{
-        method: "GET",
-        headers:{
-            "Content-Type": "application/json"
+        const url = "/api/transactions/transaction-history";
+        const response = await fetch(url, {
+            method: "GET",
+            headers: {
+                "Content-Type": "application/json"
+            }
+        })
+        const data = await response.json()
+        if (response.ok) {
+            data.userTransactions.forEach(element => {
+                const transaction = `<tr>
+                    <td>${element.createdAt}<   /td>
+                    <td><span class="badge bg-success">Credit</span></td>
+                    <td>${element.status}</td>
+                    <td class="text-end text-success">${element.amount}</td>
+                    </tr>`
+                   transactionHistory.innerHTML += transaction
+                    
+            });
         }
-    })
-    const data = await response.json()
-    if(response.ok){
-        console.log(data.userTransactions[0].amount)
-    }
     } catch (error) {
         console.log(error)
     }
-    
+
 }
+})

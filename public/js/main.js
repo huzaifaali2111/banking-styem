@@ -1,9 +1,14 @@
+window.addEventListener("DOMContentLoaded", async ()=>{
+
 let message = document.getElementById("message");
 let loginForm = document.getElementById("loginForm");
 let signupForm = document.getElementById("signupForm");
 let accoutOpeningForm = document.getElementById("accoutOpeningForm");
 let accountAlert = document.getElementById("account-alert");
-let accountBalance = document.getElementById("accountBalance")
+let accountBalance = document.getElementById("accountBalance");
+let transactionHistory = document.getElementById("transaction-history");
+
+console.log(accountBalance)
 
 if (loginForm && signupForm) {
 
@@ -29,7 +34,8 @@ if (accoutOpeningForm) {
 }
 
 if (accountBalance) {
-    window.addEventListener("DOMContentLoaded", async () => {
+    console.log("inside if")
+     async () => {
         const response = await fetch("/api/check/balance", {
             method: "GET",
             headers: {
@@ -40,10 +46,13 @@ if (accountBalance) {
          if (response.ok) {
                 accountBalance.innerText = `Rs. ${data.userBalance}`
             }
-
-    })
+    }
+}
+if(transactionHistory){
+    // userTransactions();
 }
 
+})
 // login function 
 async function userLogin(email, password) {
     const userData = {
@@ -162,4 +171,24 @@ async function userAccount(name, cnic, fatherName, birthdate, address, phoneNumb
                                     <li>${error}</li></div>`;
         accountAlert.style.display = "block"
     }
+}
+
+// transaction history function 
+async function userTransactions() {
+    try {
+    const url = "/api/transactions/transaction-history";
+    const response = await fetch(url,{
+        method: "GET",
+        headers:{
+            "Content-Type": "application/json"
+        }
+    })
+    const data = await response.json()
+    if(response.ok){
+        console.log(data.userTransactions[0].amount)
+    }
+    } catch (error) {
+        console.log(error)
+    }
+    
 }

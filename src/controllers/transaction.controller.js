@@ -216,25 +216,26 @@ async function transactionHistory(req, res) {
             { fromAccount: userAccount._id },
             { toAccount: userAccount._id }
         ]
-    })
+    }).lean();
 
     if (userTransactions.length <= 0) {
-        return res.status(200).json({
-          message: "No transaction yet click to proceed"
+        return res.status(404).json({
+            message: "No transaction yet click to proceed"
         })
     }
-    console.log(userAccount._id)
-    userTransactions.forEach(element=>{
-        if(userAccount._id == element.fromAccount){
+    userTransactions.forEach(element => {
+        if (userAccount._id.toString() == element.fromAccount.toString()) {
             element.type = 'Debit';
         }
-        else{
+        else {
             element.type = 'Credit';
         }
-    })
 
-    return res.status(200).json(userTransactions);
-    
+    })
+    return res.status(200).json({
+        userTransactions: userTransactions
+    });
+
 
 }
 
@@ -248,3 +249,6 @@ module.exports = {
     createIntialFundTransaction,
     transactionHistory
 }
+
+
+

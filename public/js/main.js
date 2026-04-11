@@ -41,7 +41,7 @@ window.addEventListener("DOMContentLoaded", async () => {
         })
         const data = await response.json()
         if (response.ok) {
-            accountBalance.innerText = `Rs. ${data.userBalance}`
+            accountBalance.innerText = `Rs. ${data.userBalance.toLocaleString()}`
         }
 
     }
@@ -187,7 +187,7 @@ async function userTransactions() {
                     <td>${element.createdAt.slice(0, 10)}</td>
                     <td><span class="badge ${element.type == "Credit" ? "bg-success": "bg-danger"}">${element.type}</span></td>
                     <td>${element.status}</td>
-                    <td class="text-end ${element.type == "Credit" ? "text-success": "text-danger"}">Rs. ${element.amount}</td>
+                    <td class="text-end ${element.type == "Credit" ? "text-success": "text-danger"}">Rs. ${element.amount.toLocaleString()}</td>
                     </tr>`
                    transactionHistory.innerHTML += transaction
                     

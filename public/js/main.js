@@ -193,6 +193,12 @@ async function userTransactions() {
                     
             });
         }
+        else{
+            const transaction = `<tr>
+            <td>${data.message}</td>
+            </tr>`
+             transactionHistory.innerHTML += transaction
+        }
     } catch (error) {
         console.log(error)
     }

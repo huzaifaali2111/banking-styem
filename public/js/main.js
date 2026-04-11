@@ -184,10 +184,10 @@ async function userTransactions() {
         if (response.ok) {
             data.userTransactions.forEach(element => {
                 const transaction = `<tr>
-                    <td>${element.createdAt}<   /td>
-                    <td><span class="badge bg-success">Credit</span></td>
+                    <td>${element.createdAt.slice(0, 10)}</td>
+                    <td><span class="badge ${element.type == "Credit" ? "bg-success": "bg-danger"}">${element.type}</span></td>
                     <td>${element.status}</td>
-                    <td class="text-end text-success">${element.amount}</td>
+                    <td class="text-end ${element.type == "Credit" ? "text-success": "text-danger"}">Rs. ${element.amount}</td>
                     </tr>`
                    transactionHistory.innerHTML += transaction
                     
@@ -198,4 +198,4 @@ async function userTransactions() {
     }
 
 }
-})
+}) 

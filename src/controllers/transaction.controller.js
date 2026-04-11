@@ -218,16 +218,23 @@ async function transactionHistory(req, res) {
         ]
     })
 
-    if (userTransactions.length > 0) {
+    if (userTransactions.length <= 0) {
         return res.status(200).json({
-            userTransactions
+          message: "No transaction yet click to proceed"
         })
     }
-    else {
-        return res.status(200).json({
-            message: "No transaction yet click to proceed"
-        })
-    }
+    console.log(userAccount._id)
+    userTransactions.forEach(element=>{
+        if(userAccount._id == element.fromAccount){
+            element.type = 'Debit';
+        }
+        else{
+            element.type = 'Credit';
+        }
+    })
+
+    return res.status(200).json(userTransactions);
+    
 
 }
 

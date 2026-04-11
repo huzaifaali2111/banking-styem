@@ -7,6 +7,8 @@ window.addEventListener("DOMContentLoaded", async () => {
     let accountAlert = document.getElementById("account-alert");
     let accountBalance = document.getElementById("accountBalance");
     let transactionHistory = document.getElementById("transaction-history");
+    let userName = document.getElementById("userName");
+    let accountNumber =document.getElementById("accountNumber");
 
 
     if (loginForm && signupForm) {
@@ -47,6 +49,7 @@ window.addEventListener("DOMContentLoaded", async () => {
     }
     if (transactionHistory) {
         userTransactions();
+        userInfo();
     }
 
 
@@ -203,5 +206,20 @@ async function userTransactions() {
         console.log(error)
     }
 
+}
+
+// user info 
+async function userInfo() {
+    const url = "/api/accounts/account-info"
+
+    const response = await fetch (url,{
+        method: "GET",
+        headers:{
+            "Content-Type": "application/json"
+        }
+    } )
+    const data = await response.json();
+    userName.innerText = `${data.userInfo.name}`
+    accountNumber.innerText = `Account Number: ${data.userInfo.accountNumber}`
 }
 }) 
